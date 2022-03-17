@@ -30,7 +30,6 @@ const getFilteredBlogs = async function (req, res) {
 
         //* below methods for converting inputData to array of objects
         let filters = Object.entries(input)
-        console.log(filters)
         let filtersAsObject = []
 
 
@@ -123,7 +122,7 @@ const deleteBlog = async function (req, res) {
         if (!blogData) return res.status(400).send({ status: false, msg: "blogId does not exist" })
 
         let isDeleted = blogData.isDeleted
-        if (isDeleted === true) return res.status(400).send({ status: false, msg: "your document is already deleted", })
+        if (isDeleted === true) return res.status(404).send({ status: false, msg: "No such blog found" })
 
         let markDirty = await BlogsModel.findByIdAndUpdate({ _id: id },
             { $set: { isDeleted: true, deletedAt: Date.now() } },
