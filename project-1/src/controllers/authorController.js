@@ -5,42 +5,42 @@ const jwt = require('jsonwebtoken')
 const createAuthor = async function (req, res) {
 
     try {
-        let authorData = req.body
-        
+        let authorData = req.body // body handle by mongoose
+
         let author = await AuthorModel.create(authorData)
 
         res.status(200).send({ status: true, data: author })
 
     } catch (error) {
         res.status(500).send({ error: error.message })
-   }
+    }
 }
 
-const login = async function (req, res){
-    try{
+const login = async function (req, res) {
+    try {
         let username = req.body.email
         let pass = req.body.password
 
-        if(username && pass){
+        if (username && pass) {
 
-            let author = await AuthorModel.findOne({email : username, password: pass})
+            let author = await AuthorModel.findOne({ email: username, password: pass })
 
-            if(!author) return res.status(404).send({status: false, msg: "please provide valid username or password"})
+            if (!author) return res.status(404).send({ status: false, msg: "email or password does not exist" })
 
-            let payLoad = {authorId : author._id}
+            let payLoad = { authorId: author._id }
 
             let secret = "projectgroup3"
 
-            let token = jwt.sign(payLoad, secret )
+            let token = jwt.sign(payLoad, secret)
 
-            res.status(200).send({status: true, data: token})
+            res.status(200).send({ status: true, data: token })
 
-        }else{
+        } else {
 
-            res.status(400).send({status: false, msg: "Please provide username and password"})
+            res.status(400).send({ status: false, msg: "Please provide username and password in request body" })
         }
 
-    }catch (error) {
+    } catch (error) {
         res.status(500).send({ error: error.message })
     }
 }
