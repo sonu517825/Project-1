@@ -24,8 +24,7 @@ const authentication = async function (req, res, next) {
 const authorization = async function (req, res, next) {
 
     try {
-    //    let id = req.query.blogId
-        let id = req.params.blogId
+            let id = req.params.blogId
        // if (!id) return res.status(400).send({ status: false, msg: "please provide blog ID in path params" })
 
         let token = req.headers["x-api-key"]
